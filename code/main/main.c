@@ -29,14 +29,15 @@
 #include "ethernet.h"
 #include "http.h"
 #include "ota.h"
-
-#define HASH_LEN 32
-
-static const char *TAG = "simple_ota_example";
+#include "led.h"
+#include "reset.h"
 
 void app_main(void)
 {
-    ESP_LOGI(TAG, "OTA example app_main start");
+
+	led_init();
+	reset_init();
+
     // Initialize NVS.
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -54,6 +55,8 @@ void app_main(void)
 
 	ethernet_init();
 	start_httpd();
-
 	start_ota();
+	
+	led_boot_complete();
+	reset_open();
 }

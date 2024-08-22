@@ -2,6 +2,8 @@ set(srcs
 	"ethernet.c"
 	"http.c"
 	"ota.c"
+	"led.c"
+	"reset.c"
 	"main.c"
 )
 
