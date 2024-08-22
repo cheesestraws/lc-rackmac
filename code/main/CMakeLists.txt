@@ -2,7 +2,7 @@ set(srcs
 	"ethernet.c"
 	"http.c"
 	"ota.c"
-	"simple_ota_example.c"
+	"main.c"
 )
 
 idf_build_get_property(project_dir PROJECT_DIR)
