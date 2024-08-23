@@ -31,12 +31,14 @@
 #include "ota.h"
 #include "led.h"
 #include "reset.h"
+#include "gpio_interrupts.h"
 
 void app_main(void)
 {
 
 	led_init();
 	reset_init();
+	gpio_intr_init();
 
     // Initialize NVS.
     esp_err_t err = nvs_flash_init();
