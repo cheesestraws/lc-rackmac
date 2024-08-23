@@ -16,11 +16,10 @@
 #include "esp_ota_ops.h"
 #include "esp_http_client.h"
 #include "esp_https_ota.h"
-#include "protocol_examples_common.h"
+#include <esp_http_server.h>
 #include "string.h"
 #include "nvs.h"
 #include "nvs_flash.h"
-#include "protocol_examples_common.h"
 #include <sys/socket.h>
 #if CONFIG_EXAMPLE_CONNECT_WIFI
 #include "esp_wifi.h"
@@ -28,6 +27,7 @@
 
 #include "ethernet.h"
 #include "http.h"
+#include "http_noncore.h"
 #include "ota.h"
 #include "led.h"
 #include "reset.h"
@@ -54,7 +54,8 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
 	ethernet_init();
-	start_httpd();
+	httpd_handle_t httpd = start_httpd();
+	install_noncore_handlers(httpd);
 	start_ota();
 	
 	led_boot_complete();

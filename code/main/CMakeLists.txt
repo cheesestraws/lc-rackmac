@@ -1,6 +1,7 @@
 set(srcs
 	"ethernet.c"
 	"http.c"
+	"http_noncore.c"
 	"ota.c"
 	"led.c"
 	"reset.c"
