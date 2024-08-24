@@ -52,7 +52,7 @@ void uart_rx_runloop(void* buffer_pool) {
 	static const char *TAG = "UART_RX";	
 	ESP_LOGI(TAG, "started");
 	
-	tashtalk_rx_state_t* rxstate = new_tashtalk_rx_state((buffer_pool_t*)buffer_pool, uart_rx_queue);
+	tashtalk_rx_state_t* rxstate = new_tashtalk_rx_state((buffer_pool_t*)buffer_pool);
 	
 	while(1){
 		/* TODO: this is stupid, read a byte at a time instead and wait for MAX_DELAY */
@@ -63,7 +63,6 @@ void uart_rx_runloop(void* buffer_pool) {
 	}
 }
 
-void uart_start(buffer_pool_t* packet_pool, QueueHandle_t rxQueue) {
-	uart_rx_queue = rxQueue;
+void uart_start(buffer_pool_t* packet_pool) {
 	xTaskCreate(&uart_rx_runloop, "UART_RX", 4096, (void*)packet_pool, 5, &uart_rx_task);
 }

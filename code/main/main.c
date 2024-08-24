@@ -33,6 +33,9 @@
 #include "reset.h"
 #include "gpio_interrupts.h"
 #include "temperature.h"
+#include "buffer_pool.h"
+#include "uart.h"
+#include "packet_types.h"
 
 void app_main(void)
 {
@@ -41,6 +44,10 @@ void app_main(void)
 	reset_init();
 	gpio_intr_init();
 	temperature_start();
+	
+	buffer_pool_t* packet_pool = new_buffer_pool(180, sizeof(llap_packet));
+	uart_init();
+	uart_start(packet_pool);
 
     // Initialize NVS.
     esp_err_t err = nvs_flash_init();

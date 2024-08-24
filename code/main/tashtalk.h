@@ -17,13 +17,11 @@
 typedef struct {
 	buffer_pool_t* buffer_pool; // the pool to get packet buffers from
 	llap_packet* packet_in_progress; // the buffer that holds the in-flight packet
-	QueueHandle_t output_queue;
 	bool in_escape;
 	crc_state_t crc;
 } tashtalk_rx_state_t;
 
-tashtalk_rx_state_t* new_tashtalk_rx_state(buffer_pool_t* buffer_pool, 
-		QueueHandle_t output_queue);
+tashtalk_rx_state_t* new_tashtalk_rx_state(buffer_pool_t* buffer_pool);
 void feed(tashtalk_rx_state_t* state, unsigned char byte);
 void feed_all(tashtalk_rx_state_t* state, unsigned char* buf, int count);
 

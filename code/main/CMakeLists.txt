@@ -12,6 +12,7 @@ set(srcs
 	"uart.c"
 	"tashtalk.c"
 	"packet_utils.c"
+	"crc.c"
 	"main.c"
 )
 

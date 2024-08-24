@@ -5,7 +5,7 @@
 
 void uart_init(void);
 void uart_init_tashtalk(void);
-void uart_start(buffer_pool_t* packet_pool, QueueHandle_t rxQueue);
+void uart_start(buffer_pool_t* packet_pool);
 
 
 #endif

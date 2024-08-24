@@ -16,8 +16,7 @@
 
 static const char* TAG = "tashtalk";
 
-tashtalk_rx_state_t* new_tashtalk_rx_state(buffer_pool_t* buffer_pool, 
-		QueueHandle_t output_queue) {
+tashtalk_rx_state_t* new_tashtalk_rx_state(buffer_pool_t* buffer_pool) {
 
 	tashtalk_rx_state_t* ns = malloc(sizeof(tashtalk_rx_state_t));
 	
@@ -28,7 +27,6 @@ tashtalk_rx_state_t* new_tashtalk_rx_state(buffer_pool_t* buffer_pool,
 	bzero(ns, sizeof(tashtalk_rx_state_t));
 	
 	ns->buffer_pool = buffer_pool;
-	ns->output_queue = output_queue;
 	
 	return ns;
 }
