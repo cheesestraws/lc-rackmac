@@ -6,6 +6,7 @@
 #include <freertos/task.h>
 
 #include "pins.h"
+#include "stats.h"
 
 #include "gpio_interrupts.h"
 
@@ -27,16 +28,21 @@ static void IRAM_ATTR fantach_isr(void* dummyParameter) {
 
 void hd_led_task(void *dummyParameter) {
 	uint32_t dummy;
+	uint32_t old_level = 1;
 
 	for(;;) {
-		xTaskNotifyWait(0, 0, &dummy, 500 / portTICK_PERIOD_MS);
+		xTaskNotifyWait(0, 0, &dummy, 1000 / portTICK_PERIOD_MS);
 		uint32_t level = gpio_get_level(PIN_HDLED_IN);
+		if (old_level == 1 && level == 0) {
+			stats.hdled_count++;
+		}
+		old_level = level;
 		gpio_set_level(PIN_HDLED_OUT, level);
 	}
 }
 
 void gpio_intr_task(void *dummyParameter) {
-	ESP_ERROR_CHECK(gpio_set_intr_type(PIN_HDLED_IN, GPIO_INTR_POSEDGE));
+	ESP_ERROR_CHECK(gpio_set_intr_type(PIN_FANTACH, GPIO_INTR_POSEDGE));
 	ESP_ERROR_CHECK(gpio_set_intr_type(PIN_HDLED_IN, GPIO_INTR_ANYEDGE));
 
 	ESP_ERROR_CHECK(gpio_install_isr_service(0));
@@ -45,7 +51,7 @@ void gpio_intr_task(void *dummyParameter) {
 	
 	for (;;) {
 		vTaskDelay(1000 / portTICK_PERIOD_MS);
-		ESP_LOGI(TAG, "fan revs: %"PRIu32, fanrevcount);
+		stats.fanrpm = fanrevcount * 30;
 		fanrevcount = 0;
 	}
 }
@@ -53,11 +59,11 @@ void gpio_intr_task(void *dummyParameter) {
 void gpio_intr_init(void) {
 	// set up GPIO pins we want to be poked about
 	ESP_ERROR_CHECK(gpio_reset_pin(PIN_HDLED_IN));
-	ESP_ERROR_CHECK(gpio_set_direction(PIN_HDLED_IN, GPIO_MODE_OUTPUT));
+	ESP_ERROR_CHECK(gpio_set_direction(PIN_HDLED_IN, GPIO_MODE_INPUT));
 	ESP_ERROR_CHECK(gpio_set_pull_mode(PIN_HDLED_IN, GPIO_FLOATING));
 	
 	ESP_ERROR_CHECK(gpio_reset_pin(PIN_FANTACH));
-	ESP_ERROR_CHECK(gpio_set_direction(PIN_FANTACH, GPIO_MODE_OUTPUT));
+	ESP_ERROR_CHECK(gpio_set_direction(PIN_FANTACH, GPIO_MODE_INPUT));
 	ESP_ERROR_CHECK(gpio_set_pull_mode(PIN_FANTACH, GPIO_FLOATING));
 
 	// Should be pinned to a core

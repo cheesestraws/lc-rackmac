@@ -6,6 +6,7 @@ set(srcs
 	"ota.c"
 	"led.c"
 	"reset.c"
+	"stats.c"
 	"main.c"
 )
 
