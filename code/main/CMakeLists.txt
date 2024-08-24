@@ -1,8 +1,10 @@
 set(srcs
+	"buffer_pool.c"
 	"ethernet.c"
 	"http.c"
 	"http_noncore.c"
 	"gpio_interrupts.c"
+	"temperature.c"
 	"ota.c"
 	"led.c"
 	"reset.c"

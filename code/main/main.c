@@ -32,6 +32,7 @@
 #include "led.h"
 #include "reset.h"
 #include "gpio_interrupts.h"
+#include "temperature.h"
 
 void app_main(void)
 {
@@ -39,6 +40,7 @@ void app_main(void)
 	led_init();
 	reset_init();
 	gpio_intr_init();
+	temperature_start();
 
     // Initialize NVS.
     esp_err_t err = nvs_flash_init();
