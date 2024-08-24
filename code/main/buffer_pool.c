@@ -12,7 +12,7 @@ static const char* TAG = "bufferpool";
 
 void bp_panic() {
 	ESP_LOGE(TAG, "PANIC AT THE DISCO!  PANIC IN THE BUFFER POOL!");
-	stats.bp_freakout++;
+	stats.bp_freakout_count++;
 }
 
 
@@ -40,7 +40,7 @@ buffer_pool_t* new_buffer_pool(int buffer_count, int buffer_size) {
 		BaseType_t result = xQueueSendToBack(queue, &buffer, 0);
 		if (result == errQUEUE_FULL) {
 			ESP_LOGE(TAG, "BUG: in new_buffer_pool, why is the queue full?");
-			stats.bp_freakout++;
+			stats.bp_freakout_count++;
 			free(buffer);
 		}
 	}
@@ -65,7 +65,7 @@ handle_err:
 void* bp_fetch(buffer_pool_t* bp) {
 	if (bp == NULL || bp->queue == NULL) {
 		ESP_LOGE(TAG, "BUG: bp_fetch called on null pool or pool with null queue");
-		stats.bp_freakout++;
+		stats.bp_freakout_count++;
 		return NULL;
 	}
 	
@@ -76,7 +76,7 @@ void* bp_fetch(buffer_pool_t* bp) {
 		return buffer;
 	} else {
 		ESP_LOGW(TAG, "BUG: bp_fetch underflowed buffer pool");
-		stats.bp_freakout++;
+		stats.bp_freakout_count++;
 		return NULL;
 	}
 }
@@ -84,18 +84,18 @@ void* bp_fetch(buffer_pool_t* bp) {
 void bp_relinquish(buffer_pool_t* bp, void** buff) {
 	if (buff == NULL) {
 		ESP_LOGE(TAG, "BUG: bp_relinquish called on null pointer");
-		stats.bp_freakout++;
+		stats.bp_freakout_count++;
 	}
 	if (*buff == NULL) {
 		ESP_LOGE(TAG, "BUG: bp_relinquish called on pointer to null buffer");
-		stats.bp_freakout++;
+		stats.bp_freakout_count++;
 	}
 
 	// Try to push the buffer to the queue	
 	BaseType_t result = xQueueSendToBack(bp->queue, buff, 0);	
 	if (result == errQUEUE_FULL) {
 		ESP_LOGE(TAG, "BUG: bp_relinquish queue overflow; have you relinquished a bad pointer?");
-		stats.bp_freakout++;
+		stats.bp_freakout_count++;
 		return;
 	}
 		

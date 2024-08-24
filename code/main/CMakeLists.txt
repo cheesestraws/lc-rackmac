@@ -9,6 +9,9 @@ set(srcs
 	"led.c"
 	"reset.c"
 	"stats.c"
+	"uart.c"
+	"tashtalk.c"
+	"packet_utils.c"
 	"main.c"
 )
 
