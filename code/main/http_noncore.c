@@ -1,4 +1,5 @@
 #include "reset.h"
+#include "stats.h"
 
 #include "http_noncore.h"
 
@@ -16,7 +17,15 @@ httpd_uri_t http_reset = {
 	.user_ctx = NULL
 };
 
+httpd_uri_t http_metrics = {
+	.uri = "/metrics",
+	.method = HTTP_GET,
+	.handler = stats_to_prometheus, // in stats.c
+	.user_ctx = NULL
+};
+
 
 void install_noncore_handlers(httpd_handle_t httpd) {
 	httpd_register_uri_handler(httpd, &http_reset);
+	httpd_register_uri_handler(httpd, &http_metrics);
 }

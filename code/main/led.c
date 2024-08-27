@@ -1,13 +1,13 @@
 #include <stdint.h>
 
 #include <driver/gpio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 #include "pins.h"
 #include "led.h"
 
-#define FLASH_LENGTH 125
+#define FLASH_LENGTH 60
 
 TaskHandle_t ltact_task;
 TaskHandle_t lterr_task;
@@ -24,6 +24,7 @@ void led_task_runloop (void* param) {
 		gpio_set_level(pin, 0);
 		vTaskDelay(FLASH_LENGTH / portTICK_PERIOD_MS);
 		gpio_set_level(pin, 1);
+		vTaskDelay(FLASH_LENGTH / portTICK_PERIOD_MS);
 	}
 }
 
@@ -53,7 +54,6 @@ void led_act_flash(void) {
 void led_err_flash(void) {
 	xTaskNotify(lterr_task, 1, eSetValueWithOverwrite);
 }
-
 
 void led_boot_complete(void) {
 	ESP_ERROR_CHECK(gpio_set_level(PIN_LT_ACT_LED, 1));

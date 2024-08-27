@@ -1,6 +1,10 @@
 #pragma once
 
+#include <esp_err.h>
 #include <stdatomic.h>
+
+#include <esp_http_server.h>
+
 
 typedef struct stats {
 	_Atomic int fanrpm;
@@ -15,3 +19,5 @@ typedef struct stats {
 } stats_t;
 
 extern stats_t stats;
+
+esp_err_t stats_to_prometheus(httpd_req_t *req);

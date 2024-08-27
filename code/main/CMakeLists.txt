@@ -13,6 +13,7 @@ set(srcs
 	"tashtalk.c"
 	"packet_utils.c"
 	"crc.c"
+	"beep.c"
 	"main.c"
 )
 

@@ -36,14 +36,15 @@
 #include "buffer_pool.h"
 #include "uart.h"
 #include "packet_types.h"
+#include "beep.h"
 
 void app_main(void)
 {
 
 	led_init();
 	reset_init();
-	gpio_intr_init();
 	temperature_start();
+	sound_init();
 	
 	buffer_pool_t* packet_pool = new_buffer_pool(180, sizeof(llap_packet));
 	uart_init();
@@ -69,6 +70,8 @@ void app_main(void)
 	install_noncore_handlers(httpd);
 	start_ota();
 	
+	gpio_intr_init();
 	led_boot_complete();
+	bootbeep();
 	reset_open();
 }
