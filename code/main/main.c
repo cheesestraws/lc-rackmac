@@ -37,6 +37,7 @@
 #include "uart.h"
 #include "packet_types.h"
 #include "beep.h"
+#include "mdns_service.h"
 
 void app_main(void)
 {
@@ -51,7 +52,7 @@ void app_main(void)
 	uart_start(packet_pool);
 
     // Initialize NVS.
-    esp_err_t err = nvs_flash_init();
+	esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         // 1.OTA app partition table has a smaller NVS partition size than the non-OTA
         // partition table. This size mismatch may cause NVS initialization to fail.
@@ -68,6 +69,7 @@ void app_main(void)
 	ethernet_init();
 	httpd_handle_t httpd = start_httpd();
 	install_noncore_handlers(httpd);
+	mdns_start();
 	start_ota();
 	
 	gpio_intr_init();

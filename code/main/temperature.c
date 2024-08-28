@@ -5,6 +5,7 @@
 #include <ds18x20.h>
 
 #include "pins.h"
+#include "stats.h"
 
 #include "temperature.h"
 
@@ -26,6 +27,7 @@ void temperature_poll_task(void* dummyParameter) {
             ESP_LOGE(TAG, "Could not read from sensor: %d (%s)", err, esp_err_to_name(err));
         } else {
             ESP_LOGI(TAG, "Sensor: %.2f°C", temperature);
+            stats.temperature = temperature;
     	}
 	
 		vTaskDelay(15000 / portTICK_PERIOD_MS);

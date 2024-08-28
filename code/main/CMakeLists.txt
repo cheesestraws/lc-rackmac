@@ -14,6 +14,7 @@ set(srcs
 	"packet_utils.c"
 	"crc.c"
 	"beep.c"
+	"mdns_service.c"
 	"main.c"
 )
 
