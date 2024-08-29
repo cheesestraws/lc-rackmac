@@ -64,5 +64,5 @@ void uart_rx_runloop(void* buffer_pool) {
 }
 
 void uart_start(buffer_pool_t* packet_pool) {
-	xTaskCreate(&uart_rx_runloop, "UART_RX", 4096, (void*)packet_pool, 5, &uart_rx_task);
+	xTaskCreate(&uart_rx_runloop, "UART_RX", 4096, (void*)packet_pool, 24, &uart_rx_task);
 }
