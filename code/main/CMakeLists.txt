@@ -15,6 +15,7 @@ set(srcs
 	"crc.c"
 	"beep.c"
 	"mdns_service.c"
+	"wifi.c"
 	"main.c"
 )
 

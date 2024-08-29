@@ -26,6 +26,7 @@
 #endif
 
 #include "ethernet.h"
+#include "wifi.h"
 #include "http.h"
 #include "http_noncore.h"
 #include "ota.h"
@@ -65,8 +66,11 @@ void app_main(void)
 
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
-
+	#ifndef WIFI
 	ethernet_init();
+	#else
+	wifi_init();
+	#endif
 	httpd_handle_t httpd = start_httpd();
 	install_noncore_handlers(httpd);
 	mdns_start();
