@@ -18,7 +18,11 @@ char* stats_fmt =
 	"tashtalk_crc_fail_count %d\n"
 	"tashtalk_framing_error_count %d\n"
 	"tashtalk_frame_abort_count %d\n"
-	"temperature %f\n\n";
+	"temperature %f\n"
+	#ifdef ONOFF
+	"power_status %d\n"
+	#endif
+	"\n";
 
 
 esp_err_t stats_to_prometheus(httpd_req_t *req) {
@@ -35,7 +39,11 @@ esp_err_t stats_to_prometheus(httpd_req_t *req) {
 		stats.tashtalk_crc_fail_count,
 		stats.tashtalk_framing_error_count,
 		stats.tashtalk_frame_abort_count,
-		stats.temperature);
+		stats.temperature
+		#ifdef ONOFF
+		,stats.relay_status
+		#endif
+		);
 		
 	httpd_resp_set_type(req, "text/plain");
 	httpd_resp_send(req, buf, HTTPD_RESP_USE_STRLEN);

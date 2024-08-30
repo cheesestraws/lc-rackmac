@@ -17,6 +17,7 @@ typedef struct stats {
 	_Atomic int tashtalk_framing_error_count;
 	_Atomic int tashtalk_frame_abort_count;
 	_Atomic float temperature;
+	_Atomic int relay_status;
 } stats_t;
 
 extern stats_t stats;
