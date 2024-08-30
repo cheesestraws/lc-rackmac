@@ -25,7 +25,7 @@ esp_err_t http_on_handler(httpd_req_t *req) {
 }
 
 httpd_uri_t http_on = {
-	.uri = "/reset",
+	.uri = "/on",
 	.method = HTTP_GET,
 	.handler = http_on_handler,
 	.user_ctx = NULL
@@ -39,7 +39,7 @@ esp_err_t http_off_handler(httpd_req_t *req) {
 }
 
 httpd_uri_t http_off = {
-	.uri = "/reset",
+	.uri = "/off",
 	.method = HTTP_GET,
 	.handler = http_off_handler,
 	.user_ctx = NULL
