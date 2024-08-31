@@ -17,6 +17,7 @@
 #include "esp_http_client.h"
 #include "esp_https_ota.h"
 #include <esp_http_server.h>
+#include <esp_netif.h>
 #include "string.h"
 #include "nvs.h"
 #include "nvs_flash.h"

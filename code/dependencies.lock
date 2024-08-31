@@ -10,12 +10,6 @@ dependencies:
     source:
       type: idf
     version: 5.3.0
-  protocol_examples_common:
-    component_hash: null
-    source:
-      path: /Users/cheesey/esp/esp-idf/examples/common_components/protocol_examples_common
-      type: local
-    version: '*'
-manifest_hash: f4393d7783a1bdab7d8780e66287a47c7a0d49d7116761d940b040ffbd109211
+manifest_hash: 3234994cc81b35ac1e694dc61f053cfd4c3cacc29051e1ad0c242dfd0d2a87c3
 target: esp32
 version: 1.0.0

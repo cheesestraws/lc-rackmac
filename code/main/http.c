@@ -6,6 +6,7 @@
 #include <esp_http_server.h>
 
 #include "ota.h"
+#include "html_fragments.h"
 
 #include "http.h"
 
@@ -51,7 +52,11 @@ void urlndecode(char *dst, const char *src, size_t len)
 /* root */
 
 esp_err_t http_root_handler(httpd_req_t *req) {
-    const char resp[] = "hello world";
+    const char resp[] = 
+    HTML_TOP
+    "hello world"
+    HTML_BOTTOM;
+    
     httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
@@ -116,9 +121,13 @@ httpd_uri_t http_ota_upgrade = {
 esp_err_t http_ota_start_handler(httpd_req_t *req) {
     httpd_resp_send(req,
     
-    "<html><body><form method='get' action='/ota/upgrade'>"
+    HTML_TOP
+    
+    "<form method='get' action='/ota/upgrade'>"
     "<input type='text' name='url'><input type='submit'>"
-    "</form></body></html>"
+    "</form>"
+    
+    HTML_BOTTOM
     
     , HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
