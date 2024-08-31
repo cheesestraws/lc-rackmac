@@ -56,4 +56,8 @@
 "<a href='/'><button type='button'>OK</button></a>" \
 "</div>"
 
+#define GO_BACK_BTN \
+"<div style='text-align:right'>" \
+"<a href='/'><button type='button'>Go back</button></a>" \
+"</div>"
 

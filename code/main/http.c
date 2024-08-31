@@ -71,7 +71,11 @@ httpd_uri_t http_root = {
 /* ota handlers */
 
 esp_err_t http_ota_status_handler(httpd_req_t *req) {
-    httpd_resp_send(req, get_ota_status(), HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_TOP, HTTPD_RESP_USE_STRLEN);
+    httpd_resp_send_chunk(req, get_ota_status(), HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, GO_BACK_BTN, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
+    httpd_resp_sendstr_chunk(req, NULL);
     return ESP_OK;
 }
 
@@ -103,9 +107,9 @@ esp_err_t http_ota_upgrade_handler(httpd_req_t *req) {
 	
 	if (got_url) {
 		do_ota(url);
-		httpd_resp_send(req, "starting...", HTTPD_RESP_USE_STRLEN);
+		httpd_resp_send(req, HTML_TOP "Starting... go <a href='/ota/status'>here</a> for status." HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
 	} else {
-		httpd_resp_send(req, "please give me a url to nom...", HTTPD_RESP_USE_STRLEN);
+		httpd_resp_send(req, HTML_TOP "please give me a url to nom..." OK_BTN HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
 	}
 	
 	return ESP_OK;
@@ -139,8 +143,6 @@ httpd_uri_t http_ota_start = {
 	.handler = http_ota_start_handler,
 	.user_ctx = NULL
 };
-
-
 
 /* Start the thing */
 
