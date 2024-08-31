@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tunables.h"
+
 #define HTML_TOP \
 "<!doctype html>" \
 "<html>" \
@@ -61,3 +63,30 @@
 "<a href='/'><button type='button'>Go back</button></a>" \
 "</div>"
 
+#ifdef ONOFF
+#define FRONTPAGE_BTNS \
+"<ul>" \
+"<li>Prometheus metrics at <a href='/metrics'>/metrics</a>.</li>" \
+"</ul>" \
+"<div style='text-align:right'>" \
+"<div style='float:left'>" \
+"<a href='/ota/start'><button type='button'>OTA</button></a>" \
+"<a href='/ota/status'><button type='button'>OTA Status</button></a>" \
+"</div>" \
+"<a href='/on'><button type='button'>Power On</button></a>" \
+"<a href='/off'><button type='button'>Power Off</button></a>" \
+"<a href='/reset'><button type='button'>Reset</button></a>" \
+"</div>"
+#else
+#define FRONTPAGE_BTNS \
+"<ul>" \
+"<li>Prometheus metrics at <a href='/metrics'>/metrics</a>.</li>" \
+"</ul>" \
+"<div style='text-align:right'>" \
+"<div style='float:left'>" \
+"<a href='/ota/start'><button type='button'>OTA</button></a>" \
+"<a href='/ota/status'><button type='button'>OTA Status</button></a>" \
+"</div>" \
+"<a href='/reset'><button type='button'>Reset</button></a>" \
+"</div>"
+#endif

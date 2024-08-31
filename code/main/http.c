@@ -7,6 +7,8 @@
 
 #include "ota.h"
 #include "html_fragments.h"
+#include "tunables.h"
+#include "stats.h"
 
 #include "http.h"
 
@@ -52,12 +54,36 @@ void urlndecode(char *dst, const char *src, size_t len)
 /* root */
 
 esp_err_t http_root_handler(httpd_req_t *req) {
-    const char resp[] = 
-    HTML_TOP
-    "hello world"
-    HTML_BOTTOM;
-    
-    httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_TOP, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, "LCBMC Status<hr><ul>", HTTPD_RESP_USE_STRLEN);
+	
+	char* buf;
+	int len;
+	#ifdef ONOFF
+	len = asprintf(&buf, "<li>Power status: <b>%s</b></li>",
+		stats.relay_status == 1 ? "on" : "off");
+	ESP_ERROR_CHECK(len == -1); // ew hacky hacky
+	httpd_resp_send_chunk(req, buf, HTTPD_RESP_USE_STRLEN);
+	free(buf);
+	#endif
+
+	len = asprintf(&buf, "<li>Temperature: %f &deg;C</li>"
+		"<li>Fan RPM: %d</li>"
+		"</ul>",
+		stats.temperature, stats.fanrpm);
+	ESP_ERROR_CHECK(len == -1); // ew hacky hacky
+	httpd_resp_send_chunk(req, buf, HTTPD_RESP_USE_STRLEN);
+	free(buf);
+	
+	httpd_resp_send_chunk(req, 
+		"<ul>"
+		"<li>Prometheus metrics at <a href='/metrics'>/metrics</a>.</li>"
+		"</ul>",
+		HTTPD_RESP_USE_STRLEN);
+
+	httpd_resp_send_chunk(req, FRONTPAGE_BTNS, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
+
     return ESP_OK;
 }
 
