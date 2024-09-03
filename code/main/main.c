@@ -22,13 +22,11 @@
 #include "nvs.h"
 #include "nvs_flash.h"
 #include <sys/socket.h>
-#if CONFIG_EXAMPLE_CONNECT_WIFI
-#include "esp_wifi.h"
-#endif
 
 #include "ethernet.h"
 #include "wifi.h"
 #include "http.h"
+#include "tunables.h"
 #include "http_noncore.h"
 #include "ota.h"
 #include "led.h"

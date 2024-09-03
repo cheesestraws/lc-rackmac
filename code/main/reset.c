@@ -4,6 +4,7 @@
 
 #include "pins.h"
 #include "stats.h"
+#include "tunables.h"
 
 #include "reset.h"
 

@@ -65,9 +65,6 @@
 
 #ifdef ONOFF
 #define FRONTPAGE_BTNS \
-"<ul>" \
-"<li>Prometheus metrics at <a href='/metrics'>/metrics</a>.</li>" \
-"</ul>" \
 "<div style='text-align:right'>" \
 "<div style='float:left'>" \
 "<a href='/ota/start'><button type='button'>OTA</button></a>" \
@@ -79,9 +76,6 @@
 "</div>"
 #else
 #define FRONTPAGE_BTNS \
-"<ul>" \
-"<li>Prometheus metrics at <a href='/metrics'>/metrics</a>.</li>" \
-"</ul>" \
 "<div style='text-align:right'>" \
 "<div style='float:left'>" \
 "<a href='/ota/start'><button type='button'>OTA</button></a>" \

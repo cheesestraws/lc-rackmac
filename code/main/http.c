@@ -83,6 +83,7 @@ esp_err_t http_root_handler(httpd_req_t *req) {
 
 	httpd_resp_send_chunk(req, FRONTPAGE_BTNS, HTTPD_RESP_USE_STRLEN);
 	httpd_resp_send_chunk(req, HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
+    httpd_resp_sendstr_chunk(req, NULL);
 
     return ESP_OK;
 }

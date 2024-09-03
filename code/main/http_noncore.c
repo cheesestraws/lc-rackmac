@@ -5,9 +5,13 @@
 #include "http_noncore.h"
 
 esp_err_t http_reset_handler(httpd_req_t *req) {
-    const char resp[] = HTML_TOP "Reset done" OK_BTN HTML_BOTTOM;
     reset_do();
-    httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_TOP, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, "Reset done", HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, OK_BTN, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
+    httpd_resp_sendstr_chunk(req, NULL);
+
     return ESP_OK;
 }
 
@@ -19,9 +23,14 @@ httpd_uri_t http_reset = {
 };
 
 esp_err_t http_on_handler(httpd_req_t *req) {
-    const char resp[] = HTML_TOP "Powered on" OK_BTN HTML_BOTTOM;
     reset_close();
-    httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+    
+	httpd_resp_send_chunk(req, HTML_TOP, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, "Powered on", HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, OK_BTN, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
+    httpd_resp_sendstr_chunk(req, NULL);
+
     return ESP_OK;
 }
 
@@ -33,9 +42,13 @@ httpd_uri_t http_on = {
 };
 
 esp_err_t http_off_handler(httpd_req_t *req) {
-    const char resp[] = HTML_TOP "Powered off" OK_BTN HTML_BOTTOM;
     reset_open();
-    httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+
+	httpd_resp_send_chunk(req, HTML_TOP, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, "Powered off", HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, OK_BTN, HTTPD_RESP_USE_STRLEN);
+	httpd_resp_send_chunk(req, HTML_BOTTOM, HTTPD_RESP_USE_STRLEN);
+    httpd_resp_sendstr_chunk(req, NULL);
     return ESP_OK;
 }
 

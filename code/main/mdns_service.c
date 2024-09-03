@@ -7,7 +7,7 @@
 #include "tunables.h"
 #include "mdns_service.h"
 
-static char *generate_hostname(void) {
+char *generate_hostname(void) {
 	uint8_t mac[6];
 	char   *hostname;
 	esp_read_mac(mac, ESP_MAC_WIFI_STA);

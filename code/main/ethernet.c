@@ -5,6 +5,7 @@
 #include <esp_eth.h>
 #include <driver/gpio.h>
 
+#include "mdns_service.h"
 #include "ethernet.h"
 
 static const char* TAG = "ETHERNET";
@@ -44,5 +45,8 @@ void ethernet_init(void) {
 	esp_netif_t *global_netif = esp_netif_new(&netif_config);
 	esp_eth_netif_glue_handle_t eth_netif_glue = esp_eth_new_netif_glue(eth_handle);
 	ESP_ERROR_CHECK(esp_netif_attach(global_netif, eth_netif_glue));
+	char* hostname = generate_hostname();
+	ESP_ERROR_CHECK(esp_netif_set_hostname(global_netif, hostname));
+	free(hostname);
 	ESP_ERROR_CHECK(esp_eth_start(eth_handle));
 }
